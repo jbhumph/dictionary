@@ -27,17 +27,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            File file = new File("dictionary.txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                System.out.println(data);
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        System.out.println("\nWelcome to Docu-Scan!\n");
+        System.out.println("SCANNING MENU:\n");
+        System.out.println("1.   Select an alternative dictionary\n");
+        System.out.println("2.   Scan from document or folder\n");
+        System.out.println("3.   Remove document from data\n");
+        System.out.println("4.   Finish scanning and proceed to display options\n\n");
+
+        System.out.println("Please enter an option below (1 - 4)");
+        
     }
+        
 }
