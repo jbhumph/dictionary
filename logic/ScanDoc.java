@@ -21,13 +21,13 @@ public class ScanDoc {
         }
     }
 
-    public static void scanFile(Binary tree, File file) throws FileNotFoundException {
+    public static void scanFile(Binary tree, File file, ArrayList<String> dictionary) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         scanner.useDelimiter("[\\s,;:.!?-]+");
         while (scanner.hasNext()) {
             String word = scanner.next();
-            tree.insert(word);
+            tree.insert(word, dictionary);
         }
-
+        scanner.close();
     }
 }

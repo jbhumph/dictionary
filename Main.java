@@ -1,4 +1,4 @@
-// main program to scan in multiple txt files
+// main program to scan in multiple txt files                           
     // ui welcome screen
     // choose from built in dictionary or scan in your own
         // run function for either
@@ -40,7 +40,7 @@ public class Main {
         scanArray(file, dictionary);
 
         // create BST
-        Binary tree = new Binary();
+        Binary tree = new Binary(dictionary);
 
         
         Scanner scanner = new Scanner(System.in);
@@ -59,6 +59,7 @@ public class Main {
         }
         switch (menuA) {
             case 1:
+                // select a file for new dictionary
                 System.out.println("Please enter a pathname for the new dictionary.");
                 scanner.nextLine();
                 String newPath = scanner.nextLine();
@@ -70,6 +71,7 @@ public class Main {
                 }
                 break;
             case 2:
+                // single or bulk file scan
                 System.out.println("1.   Single file scan\n");
                 System.out.println("2.   Bulk file scan\n");
                 System.out.println("Please enter an option below (1 or 2)");
@@ -80,17 +82,20 @@ public class Main {
                 }
                 switch (menuB) {
                     case 1:
+                        // single file scan
                         System.out.println("Please enter the pathname for the file you would like to scan.");
                         scanner.nextLine();
                         String filePath = scanner.nextLine();
                         File toScan = new File(filePath);
                         if (toScan.exists()) {
-                            scanFile(tree, toScan);
+                            scanFile(tree, toScan, dictionary);
                         } else {
                             System.out.println("File does not exist.");
                         }
+                        tree.printTree(tree.getRoot());
                         break;
                     case 2:
+                        // bulk file scan
                         System.out.println("Please enter the pathname for the folder you would like to scan.");
                         scanner.nextLine();
                         String folderPath = scanner.nextLine();
@@ -98,7 +103,7 @@ public class Main {
                         if (folder.exists()) {
                             File[] files = folder.listFiles();
                             for (File f : files) {
-                                scanArray(f, dictionary);
+                                scanFile(tree, f, dictionary);
                             }
                         } else {
                             System.out.println("Folder does not exist.");
@@ -113,9 +118,10 @@ public class Main {
                 System.out.println("You have selected to finish scanning and proceed to display options.");
                 break;
         }
+        scanner.close();
 
 
-
+    
     }
         
 }
