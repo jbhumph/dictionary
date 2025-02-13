@@ -83,7 +83,6 @@ public class Binary {
         Node<String> parent = root;
         boolean isLeftChild = false;
         while (current != null && !current.data.equals(data)) {
-            System.out.println("test");
             parent = current;
             if (data.compareTo(current.data) < 0) {
                 isLeftChild = true;
