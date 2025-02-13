@@ -42,19 +42,35 @@ public class Main {
         // create BST
         Binary tree = new Binary(dictionary);
 
-        
+        boolean running = true;
         Scanner scanner = new Scanner(System.in);
+
+        while (running) {
+            running = menu(tree, dictionary, scanner);
+        }
+
+        scanner.close();
+
+        
+        
+
+
+    
+    }
+
+    public static boolean menu(Binary tree, ArrayList<String> dictionary, Scanner scanner) throws FileNotFoundException {
         System.out.println("\nWelcome to Docu-Scan!\n");
         System.out.println("SCANNING MENU:\n");
         System.out.println("1.   Select an alternative dictionary\n");
         System.out.println("2.   Scan from document or folder\n");
         System.out.println("3.   Remove document from data\n");
-        System.out.println("4.   Finish scanning and proceed to display options\n\n");
+        System.out.println("4.   Finish scanning and proceed to display options\n");
+        System.out.println("5.   Quit scanning\n\n");
 
-        System.out.println("Please enter an option below (1 - 4)");
+        System.out.println("Please enter an option below (1 - 5)");
         int menuA = scanner.nextInt();
-        while (!numRange(menuA, 1, 4)) {
-            System.out.println("Invalid option. Please enter a number between 1 and 4.");
+        while (!numRange(menuA, 1, 5)) {
+            System.out.println("Invalid option. Please enter a number between 1 and 5.");
             menuA = scanner.nextInt();
         }
         switch (menuA) {
@@ -112,16 +128,24 @@ public class Main {
                 }
                 break;
             case 3:
-                System.out.println("You have selected to remove a document from data.");
+                System.out.println("Please enter the pathname for the file you would like to remove.");
+                scanner.nextLine();
+                String removePath = scanner.nextLine();
+                File removeFile = new File(removePath);
+                if (removeFile.exists()) {
+                    scanDelete(tree, removeFile, dictionary);
+                } else {
+                    System.out.println("File does not exist.");
+                }
                 break;
             case 4:
                 System.out.println("You have selected to finish scanning and proceed to display options.");
                 break;
+            case 5:
+                System.out.println("You have selected to quit scanning.");
+                return false;
         }
-        scanner.close();
-
-
-    
+        return true;
     }
         
 }

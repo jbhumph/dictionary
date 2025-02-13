@@ -36,6 +36,11 @@ public class Binary {
         return root;
     }
 
+    public int getSize() {
+        // return size
+        return size;
+    }
+
     public void insert(String data, ArrayList<String> dictionary) {
         // insert data into tree
         Node<String> newNode = new Node<String>(data);
@@ -70,6 +75,85 @@ public class Binary {
                 return;
             }
         }
+    }
+
+    public void delete(String data, ArrayList<String> dictionary) {
+        // delete data from tree
+        Node<String> current = root;
+        Node<String> parent = root;
+        boolean isLeftChild = false;
+        while (current != null && !current.data.equals(data)) {
+            System.out.println("test");
+            parent = current;
+            if (data.compareTo(current.data) < 0) {
+                isLeftChild = true;
+                current = current.left;
+            } else {
+                isLeftChild = false;
+                current = current.right;
+            }
+        }
+        if (current == null) {
+            return;
+        }
+        if (current.count > 1) {
+            current.count--;
+            return;
+        }
+        if (current.left == null && current.right == null) {
+            if (current == root) {
+                root = null;
+            }
+            if (isLeftChild) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+        } else if (current.right == null) {
+            if (current == root) {
+                root = current.left;
+            } else if (isLeftChild) {
+                parent.left = current.left;
+            } else {
+                parent.right = current.left;
+            }
+        } else if (current.left == null) {
+            if (current == root) {
+                root = current.right;
+            } else if (isLeftChild) {
+                parent.left = current.right;
+            } else {
+                parent.right = current.right;
+            }
+        } else {
+            Node<String> successor = getSuccessor(current);
+            if (current == root) {
+                root = successor;
+            } else if (isLeftChild) {
+                parent.left = successor;
+            } else {
+                parent.right = successor;
+            }
+            successor.left = current.left;
+        }
+        size--;
+    }
+
+    public Node<String> getSuccessor(Node<String> deleteNode) {
+        // get successor of node to be deleted
+        Node<String> successor = null;
+        Node<String> successorParent = null;
+        Node<String> current = deleteNode.right;
+        while (current != null) {
+            successorParent = successor;
+            successor = current;
+            current = current.left;
+        }
+        if (successor != deleteNode.right) {
+            successorParent.left = successor.right;
+            successor.right = deleteNode.right;
+        }
+        return successor;
     }
 
     public void printTree(Node<String> node) {

@@ -30,4 +30,14 @@ public class ScanDoc {
         }
         scanner.close();
     }
+
+    public static void scanDelete(Binary tree, File file, ArrayList<String> dictionary) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        scanner.useDelimiter("[\\s,;:.!?-]+");
+        while (scanner.hasNext()) {
+            String word = scanner.next();
+            tree.delete(word, dictionary);
+        }
+        scanner.close();
+    }
 }
