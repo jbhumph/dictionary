@@ -6,7 +6,14 @@ package logic;
     // return lowest element
     // return highest element
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Binary {
     private static class Node<T> {
@@ -25,10 +32,14 @@ public class Binary {
 
     private Node<String> root;
     private int size;
+    private int highestCount;
+    private String highestWord;
 
     public Binary(ArrayList<String> dictionary) {
         this.root = null;
         this.size = 0;
+        this.highestCount = 0;
+        this.highestWord = "";
     }
 
     public Node<String> getRoot() {
@@ -39,6 +50,11 @@ public class Binary {
     public int getSize() {
         // return size
         return size;
+    }
+
+    public String getMostCommon() {
+        // return most common word
+        return highestWord;
     }
 
     public void insert(String data, ArrayList<String> dictionary, int[] count) {
@@ -79,6 +95,10 @@ public class Binary {
             } else {
                 current.count++;
                 count[1]++;
+                if (current.count > highestCount) {
+                    highestCount = current.count;
+                    highestWord = current.data;
+                }
                 return;
             }
         }
@@ -185,4 +205,29 @@ public class Binary {
             return true;
         }
     }
+
+    public void export(String filename) {
+    try (Writer writer = new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8)) {
+        exportNode(root, writer);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+private void exportNode(Node<String> node, Writer writer) throws IOException {
+    if (node == null) {
+        return;
+    }
+    Stack<Node<String>> stack = new Stack<>();
+    Node<String> current = node;
+    while (current != null || !stack.isEmpty()) {
+        while (current != null) {
+            stack.push(current);
+            current = current.left;
+        }
+        current = stack.pop();
+        writer.write(current.data + "\n");
+        current = current.right;
+    }
+}
 }

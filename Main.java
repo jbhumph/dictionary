@@ -43,16 +43,17 @@ public class Main {
 
         boolean running = true;
         Scanner scanner = new Scanner(System.in);
+        int count[] = {0, 0, 0, 0};
         System.out.println("\nWelcome to Docu-Scan!\n");
 
         while (running) {
-            running = menu(tree, dictionary, scanner);
+            running = menu(tree, dictionary, scanner, count);
         }
 
         scanner.close();
     }
 
-    public static boolean menu(Binary tree, ArrayList<String> dictionary, Scanner scanner) throws FileNotFoundException {
+    public static boolean menu(Binary tree, ArrayList<String> dictionary, Scanner scanner, int[] count) throws FileNotFoundException {
         System.out.println("\n\n\nSCANNING MENU:\n");
         System.out.println("1.   Select an alternative dictionary\n");
         System.out.println("2.   Scan from document or folder\n");
@@ -89,7 +90,6 @@ public class Main {
                     System.out.println("\nInvalid option. Please enter a number between 1 and 2.");
                     menuB = scanner.nextInt();
                 }
-                int count[] = {0, 0, 0, 0};
                 switch (menuB) {
                     case 1:
                         // single file scan
@@ -146,6 +146,7 @@ public class Main {
                     deleted = scanDelete(tree, removeFile, dictionary);
                     long endTime = System.currentTimeMillis();
                     duration = endTime - startTime;
+                    count[1]--;
                 } else {
                     System.out.println("\nFile does not exist.");
                 }
@@ -154,6 +155,62 @@ public class Main {
                 break;
             case 4:
                 System.out.println("\nYou have selected to finish scanning and proceed to display options.");
+
+                System.out.println("\n\n\nDISPLAY MENU:\n");
+                System.out.println("1.   Print scanned words\n");
+                System.out.println("2.   Print most commonly used word\n");
+                System.out.println("3.   Print scanning stats\n");
+                System.out.println("4.   Export unique matched words to .txt file\n");
+                System.out.println("5.   Return to Main Menu\n");
+                System.out.println("6.   Quit program\n\n");
+                
+                System.out.println("Please enter an option below (1 - 5)");
+                int menuC = scanner.nextInt();
+                while (!numRange(menuC, 1, 6)) {
+                    System.out.println("\nInvalid option. Please enter a number between 1 and 6.");
+                    menuB = scanner.nextInt();
+                }
+
+                switch (menuC) {
+                    case 1:
+                        // print words that match dictionary
+                        System.out.println("\nWords that match the dictionary:\n");
+                        tree.printTree(tree.getRoot());
+                        break;
+                    case 2:
+                        // print most commonly used word
+                        System.out.println("\nMost commonly used word:\n");
+                        System.out.println(tree.getMostCommon());
+                        break;
+                    case 3:
+                        // print summary
+                        System.out.println("\nScanning stats:\n");
+                        System.out.println("Total files scanned: " + count[0]);
+                        System.out.println("Total words scanned: " + count[1]);
+                        System.out.println("Words in dictionary: " + count[2]);
+                        System.out.println("Words not in dictionary: " + count[3]);
+                        break;
+                    case 4:
+                        // export matched words to .txt file
+                        System.out.println("\nPlease enter the folder name you would like to export to.");
+                        scanner.nextLine();
+                        String exportPath = scanner.nextLine();
+                        File exportFile = new File(exportPath);
+                        if (exportFile.exists()) {
+                            tree.export(exportPath + "/export.txt");
+                        } else {
+                            System.out.println("\nFile does not exist.");
+                        }
+                        break;
+                    case 5:
+                        System.out.println("\nYou have selected to return to the main menu.");
+                        return true;
+                    case 6:
+                        System.out.println("\nYou have selected to quit the program.");
+                        return false;
+                }
+            
+                
                 break;
             case 5:
                 System.out.println("\nYou have selected to quit scanning.");
