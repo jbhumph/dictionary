@@ -41,7 +41,7 @@ public class Binary {
         return size;
     }
 
-    public void insert(String data, ArrayList<String> dictionary) {
+    public void insert(String data, ArrayList<String> dictionary, int[] count) {
         // insert data into tree
         Node<String> newNode = new Node<String>(data);
         if (root == null) {
@@ -53,6 +53,8 @@ public class Binary {
         Node<String> parent = null;
         while (true) {
             if (!match(data, dictionary, 0, (int) dictionary.size() - 1)) {
+                count[3]++;
+                count[1]++;
                 return;
             }
             parent = current;
@@ -61,6 +63,8 @@ public class Binary {
                 if (current == null) {
                     parent.left = newNode;
                     size++;
+                    count[1]++;
+                    count[2]++;
                     return;
                 }
             } else if (data.compareTo(current.data) > 0) {
@@ -68,10 +72,13 @@ public class Binary {
                 if (current == null) {
                     parent.right = newNode;
                     size++;
+                    count[1]++;
+                    count[2]++;
                     return;
                 }
             } else {
                 current.count++;
+                count[1]++;
                 return;
             }
         }

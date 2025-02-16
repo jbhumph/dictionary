@@ -39,28 +39,21 @@ public class Main {
         File file = new File("./data/dictionary.txt");
         scanArray(file, dictionary);
 
-        // create BST
         Binary tree = new Binary(dictionary);
 
         boolean running = true;
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nWelcome to Docu-Scan!\n");
 
         while (running) {
             running = menu(tree, dictionary, scanner);
         }
 
         scanner.close();
-
-        
-        
-
-
-    
     }
 
     public static boolean menu(Binary tree, ArrayList<String> dictionary, Scanner scanner) throws FileNotFoundException {
-        System.out.println("\nWelcome to Docu-Scan!\n");
-        System.out.println("SCANNING MENU:\n");
+        System.out.println("\n\n\nSCANNING MENU:\n");
         System.out.println("1.   Select an alternative dictionary\n");
         System.out.println("2.   Scan from document or folder\n");
         System.out.println("3.   Remove document from data\n");
@@ -70,79 +63,100 @@ public class Main {
         System.out.println("Please enter an option below (1 - 5)");
         int menuA = scanner.nextInt();
         while (!numRange(menuA, 1, 5)) {
-            System.out.println("Invalid option. Please enter a number between 1 and 5.");
+            System.out.println("\nInvalid option. Please enter a number between 1 and 5.");
             menuA = scanner.nextInt();
         }
         switch (menuA) {
             case 1:
                 // select a file for new dictionary
-                System.out.println("Please enter a pathname for the new dictionary.");
+                System.out.println("\nPlease enter a pathname for the new dictionary.");
                 scanner.nextLine();
                 String newPath = scanner.nextLine();
                 File newFile = new File(newPath);
                 if (newFile.exists()) {
                     scanArray(newFile, dictionary);
                 } else {
-                    System.out.println("File does not exist.");
+                    System.out.println("\nFile does not exist.");
                 }
                 break;
             case 2:
                 // single or bulk file scan
-                System.out.println("1.   Single file scan\n");
+                System.out.println("\n1.   Single file scan\n");
                 System.out.println("2.   Bulk file scan\n");
                 System.out.println("Please enter an option below (1 or 2)");
                 int menuB = scanner.nextInt();
                 while (!numRange(menuB, 1, 2)) {
-                    System.out.println("Invalid option. Please enter a number between 1 and 2.");
+                    System.out.println("\nInvalid option. Please enter a number between 1 and 2.");
                     menuB = scanner.nextInt();
                 }
+                int count[] = {0, 0, 0, 0};
                 switch (menuB) {
                     case 1:
                         // single file scan
-                        System.out.println("Please enter the pathname for the file you would like to scan.");
+                        System.out.println("\nPlease enter the pathname for the file you would like to scan.");
                         scanner.nextLine();
                         String filePath = scanner.nextLine();
                         File toScan = new File(filePath);
+                        long duration = 0;
                         if (toScan.exists()) {
-                            scanFile(tree, toScan, dictionary);
+                            long startTime = System.currentTimeMillis();
+                            scanFile(tree, toScan, dictionary, count);
+                            long endTime = System.currentTimeMillis();
+                            duration = endTime - startTime;
                         } else {
-                            System.out.println("File does not exist.");
+                            System.out.println("\nFile does not exist.");
                         }
-                        tree.printTree(tree.getRoot());
+                        System.out.println("\nFinished Scanning in " + duration + " milliseconds.");
+                        System.out.println("Total words scanned: " + count[1] + "; Words in dictionary: " + count[2] + "; Words not in dictionary: " + count[3]);
                         break;
                     case 2:
                         // bulk file scan
-                        System.out.println("Please enter the pathname for the folder you would like to scan.");
+                        System.out.println("\nPlease enter the pathname for the folder you would like to scan.");
                         scanner.nextLine();
                         String folderPath = scanner.nextLine();
                         File folder = new File(folderPath);
+                        duration = 0;
                         if (folder.exists()) {
                             File[] files = folder.listFiles();
+                            long startTime = System.currentTimeMillis();
                             for (File f : files) {
-                                scanFile(tree, f, dictionary);
+                                System.out.println(f);
+                                scanFile(tree, f, dictionary, count);
                             }
+                            long endTime = System.currentTimeMillis();
+                            duration = endTime - startTime;
                         } else {
-                            System.out.println("Folder does not exist.");
+                            System.out.println("\nFolder does not exist.");
+                            break;
                         }
+                        System.out.println("\nFinished Scanning in " + duration + " milliseconds.");
+                        System.out.println("Total files scanned: " + count[0] + "; Total words scanned: " + count[1] + "; Words in dictionary: " + count[2] + "; Words not in dictionary: " + count[3]);
                         break;
                 }
                 break;
             case 3:
-                System.out.println("Please enter the pathname for the file you would like to remove.");
+                System.out.println("\nPlease enter the pathname for the file you would like to remove.");
                 scanner.nextLine();
                 String removePath = scanner.nextLine();
                 File removeFile = new File(removePath);
+                int deleted = 0;
+                long duration = 0;
                 if (removeFile.exists()) {
-                    scanDelete(tree, removeFile, dictionary);
+                    long startTime = System.currentTimeMillis();
+                    deleted = scanDelete(tree, removeFile, dictionary);
+                    long endTime = System.currentTimeMillis();
+                    duration = endTime - startTime;
                 } else {
-                    System.out.println("File does not exist.");
+                    System.out.println("\nFile does not exist.");
                 }
+                System.out.println("\nDocument has been removed. " + deleted + " words have been deleted in " + duration + " milliseconds.");
+                System.out.println(tree.getSize() + " unique words remain in the dictionary.");
                 break;
             case 4:
-                System.out.println("You have selected to finish scanning and proceed to display options.");
+                System.out.println("\nYou have selected to finish scanning and proceed to display options.");
                 break;
             case 5:
-                System.out.println("You have selected to quit scanning.");
+                System.out.println("\nYou have selected to quit scanning.");
                 return false;
         }
         return true;
