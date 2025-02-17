@@ -148,5 +148,11 @@ Public domain sample texts are from [Project Gutenberg](https://www.gutenberg.or
 
 ## Screenshots:
 
+Screenshot of programs Title and Main Menu:
 
+documentation/Screenshot 2025-02-17 at 11.01.27 AM.png
+
+Scrrenshot of successful batch scan with scan data output
+
+documentation/Screenshot 2025-02-17 at 11.02.23 AM.png
 
