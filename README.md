@@ -67,6 +67,76 @@ The application should continue to return to the main menu until the user exits 
 
 ## About:
 
+This application uses a Binary Search tree as it's primary data structure. I wrote my own custom version here as I needed specific applications and integrated traversals for the program while shaving off functions that were not needed. 
+
+The dictionary section of the application scans a .txt file and parses it for words set apart by a new line. It then adds each word into an array. The array is accessed and searched via a binary search function in Binary.java.
+
+The scanning is run by a scan function in ScanDoc.java which the calls an insert function in Binary.java for each word input while checking against a dictionary. Batch processing merely runs the same process for each .txt file in scanned file.
+
+ScanDoc.java
+```
+public static void scanFile(Binary tree, File file, ArrayList<String> dictionary, int[] count) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        scanner.useDelimiter("[\\s,;:.!?-]+");
+        while (scanner.hasNext()) {
+            String word = scanner.next();
+            tree.insert(word, dictionary, count);
+        }
+        scanner.close();
+        count[0]++;
+    }
+```
+
+Binary.java
+```
+public void insert(String data, ArrayList<String> dictionary, int[] count) {
+        // insert data into tree
+        Node<String> newNode = new Node<String>(data);
+        if (root == null) {
+            root = newNode;
+            size++;
+            return;
+        }
+        Node<String> current = root;
+        Node<String> parent = null;
+        while (true) {
+            if (!match(data, dictionary, 0, (int) dictionary.size() - 1)) {
+                count[3]++;
+                count[1]++;
+                return;
+            }
+            parent = current;
+            if (data.compareTo(current.data) < 0) {
+                current = current.left;
+                if (current == null) {
+                    parent.left = newNode;
+                    size++;
+                    count[1]++;
+                    count[2]++;
+                    return;
+                }
+            } else if (data.compareTo(current.data) > 0) {
+                current = current.right;
+                if (current == null) {
+                    parent.right = newNode;
+                    size++;
+                    count[1]++;
+                    count[2]++;
+                    return;
+                }
+            } else {
+                current.count++;
+                count[1]++;
+                if (current.count > highestCount) {
+                    highestCount = current.count;
+                    highestWord = current.data;
+                }
+                return;
+            }
+        }
+    }
+```
+
 
 ## Attributions:
 
