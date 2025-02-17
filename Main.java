@@ -20,15 +20,11 @@
         // export words that did not match to .txt file
 
 import static logic.Validate.*;
-
-import static logic.Function.*;
 import static logic.ScanDoc.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import logic.Binary;
 
 
@@ -44,12 +40,12 @@ public class Main {
         boolean running = true;
         Scanner scanner = new Scanner(System.in);
         int count[] = {0, 0, 0, 0};
-        System.out.println("\nWelcome to Docu-Scan!\n");
+        title();
+        System.out.println("\n\nWelcome to Docu-Scan!\n");
 
         while (running) {
             running = menu(tree, dictionary, scanner, count);
         }
-
         scanner.close();
     }
 
@@ -217,6 +213,18 @@ public class Main {
                 return false;
         }
         return true;
+    }
+
+    public static void title() {
+        System.out.println("\n\n\n");
+        System.out.println(" ______   ______   ______   __  __             ______   ______   ________   ___   __      ");
+        System.out.println("/_____/\\ /_____/\\ /_____/\\ /_/\\/_/\\           /_____/\\ /_____/\\ /_______/\\ /__/\\ /__/\\    ");
+        System.out.println("\\:::_ \\ \\\\:::_ \\ \\\\:::__\\/ \\:\\ \\:\\ \\   _______\\::::_\\/_\\:::__\\/ \\::: _  \\ \\\\::\\_\\\\  \\ \\   ");
+        System.out.println(" \\:\\ \\ \\ \\\\:\\ \\ \\ \\\\:\\ \\  __\\:\\ \\:\\ \\ /______/\\\\:\\/___/\\\\:\\ \\  __\\::(_)  \\ \\\\:. `-\\  \\ \\  ");
+        System.out.println("  \\:\\ \\ \\ \\\\:\\ \\ \\ \\\\:\\ \\/_/\\\\:\\ \\:\\ \\\\__::::\\/ \\_::._\\:\\\\:\\ \\/_/\\\\:: __  \\ \\\\:. _    \\ \\ ");
+        System.out.println("   \\:\\/.:| |\\:\\_\\ \\ \\\\:\\_\\ \\ \\\\:\\_\\:\\ \\           /____\\:\\\\:\\_\\ \\ \\\\:.\\ \\  \\ \\\\. \\`-\\  \\ \\");
+        System.out.println("    \\____/_/ \\_____\\/ \\_____\\/ \\_____\\/           \\_____\\/ \\_____\\/ \\__\\/\\__\\/ \\__\\/ \\__\\/");
+        System.out.println("");
     }
         
 }
