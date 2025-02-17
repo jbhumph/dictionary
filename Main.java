@@ -1,24 +1,3 @@
-// main program to scan in multiple txt files                           
-    // ui welcome screen
-    // choose from built in dictionary or scan in your own
-        // run function for either
-    // choose between single or bulk file scan
-        // if single determine file and run single scan
-        // if bulk, determine folder and loop over individual docs
-    // choose to remove a document
-        // choose from list of previous files
-        // select a new file
-    // determine if scanning complete
-        // if complete move on to DISPLAY section
-        // if not, re-prompt for scanning options
-
-    // Display options: 
-        // print words that match dictionary
-        // print words that did not match
-        // print summary (Total words, match count, non match count)
-        // export matched words to .txt file
-        // export words that did not match to .txt file
-
 import static logic.Validate.*;
 import static logic.ScanDoc.*;
 import java.io.File;
