@@ -150,9 +150,9 @@ Public domain sample texts are from [Project Gutenberg](https://www.gutenberg.or
 
 Screenshot of programs Title and Main Menu:
 
-documentation/Screenshot 2025-02-17 at 11.01.27 AM.png
+![Title and Main Menu](documentation/Screenshot%202025-02-17%20at%2011.01.27%20AM.png)
 
-Scrrenshot of successful batch scan with scan data output
+Screenshot of successful batch scan with scan data output:
 
-documentation/Screenshot 2025-02-17 at 11.02.23 AM.png
+![Batch Scan Output](documentation/Screenshot%202025-02-17%20at%2011.02.23%20AM.png)
 
